@@ -1,0 +1,53 @@
+{
+  "name": "@fav/prop.define",
+  "version": "0.0.0",
+  "description": "Defines object properties.",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "web/"
+  ],
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "test": "mocha",
+    "coverage": "nyc --reporter=lcov --reporter=text-summary npm test",
+    "coveralls": "nyc --reporter=text-lcov npm test | coveralls",
+    "web:build": "npm run web:build-src && npm run web:build-test",
+    "web:build-src": "browserify index.js --standalone fav.prop.define -o web/fav.prop.define.js && cd web && uglifyjs fav.prop.define.js --compress --mangle -o fav.prop.define.min.js --source-map url=fav.prop.define.min.js.map",
+    "web:build-test": "node tool/mktest.js",
+    "chrome:install": "npm i --no-save mocha-chrome",
+    "chrome:test": "mocha-chrome test/web/browser-test.html",
+    "build": "npm run lint && npm run coverage && npm run web:build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sttk/fav-prop.define.git"
+  },
+  "keywords": [
+    "define",
+    "object",
+    "prop",
+    "fav"
+  ],
+  "author": "Takayuki Sato",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sttk/fav-prop.define/issues"
+  },
+  "homepage": "https://github.com/sttk/fav-prop.define#readme",
+  "devDependencies": {
+    "browserify": "^16.2.3",
+    "chai": "^3.5.0",
+    "coveralls": "^3.0.2",
+    "eslint": "^5.9.0",
+    "mocha": "^3.4.2",
+    "nyc": "^13.1.0",
+    "uglify-js": "^3.4.9"
+  },
+  "dependencies": {
+    "@fav/type.is-function": "^1.0.2"
+  }
+}
