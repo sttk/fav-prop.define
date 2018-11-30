@@ -30,8 +30,8 @@ describe('fav.prop.define', function() {
     expect(obj.a).to.equal(2);
   });
 
-  describe('Should define override', function() {
-    it('when specifying a name and a function', function() {
+  describe('Define override', function() {
+    it('Should override when specifying a name and a function', function() {
       var logs = [];
       var obj = { a: 123 };
       define.override(obj, 'f', function f1(b) {
@@ -52,7 +52,7 @@ describe('fav.prop.define', function() {
       ]);
     });
 
-    it('when specifying a named function', function() {
+    it('Should override when specifying a named function', function() {
       var logs = [];
       var obj = { a: 123 };
       obj.f = function(b) {
@@ -84,6 +84,36 @@ describe('fav.prop.define', function() {
         'f: a=123, b=789',
         'f (overridden): a=123, b=CDE',
         'f (overridden 2): a=123, b=FGH',
+      ]);
+    });
+
+    it('Should ignore when specifying a no-name func as 2nd arg', function() {
+      var logs = [];
+      var obj = { a: 123 };
+      obj.f = function(b) {
+        logs.push('f: a=' + this.a + ', b=' + b);
+      };
+      obj.f(456);
+      expect(logs).to.deep.equal(['f: a=123, b=456']);
+
+      define.override(obj, function(b) {
+        logs.push('f (overridden): a=' + this.a + ', b=' + b);
+      });
+      obj.f('ABC');
+      expect(logs).to.deep.equal([
+        'f: a=123, b=456',
+        'f: a=123, b=ABC',
+      ]);
+
+      define.override(obj, function(b) {
+        f.$uper('CDE');
+        logs.push('f (overridden 2): a=' + this.a + ', b=' + b);
+      });
+      obj.f('FGH');
+      expect(logs).to.deep.equal([
+        'f: a=123, b=456',
+        'f: a=123, b=ABC',
+        'f: a=123, b=FGH',
       ]);
     });
   });

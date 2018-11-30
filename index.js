@@ -19,7 +19,9 @@ exports.mutable = function(obj, name, value) {
 exports.override = function(obj, name, fn) {
   if (isFunction(name)) {
     fn = name;
-    name = fn.name;
+    if (!(name = fn.name || getFunctionName(fn))) {
+      return;
+    }
   }
 
   var superFn = obj[name];
@@ -35,3 +37,11 @@ exports.override = function(obj, name, fn) {
     value: fn,
   });
 };
+
+/* istanbul ignore next */
+function getFunctionName(fn) {  // for IE11
+  var result = /^\s*function ([^(]+)\(/.exec(fn.toString());
+  if (result) {
+    return result[1];
+  }
+}
