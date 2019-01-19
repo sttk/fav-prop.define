@@ -49,7 +49,7 @@ obj.func();
 For Web browsers:
 
 ```html
-<script src="fav.prop.assign.min.js"></script>
+<script src="fav.prop.define.min.js"></script>
 <script>
 var define = fav.prop.define;
 define.immutable(obj, 'HIDDEN_CONSTANT_VALUE', 123);
